@@ -1,0 +1,29 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Deps
+node_modules/
+
+# Build
+dist/
+dist-ssr/
+*.local
+
+# TanStack Router generated
+src/routeTree.gen.ts
+.tanstack/
+
+# Local-only data + secrets
+.env
+.env.local
+.env.*.local
+scripts/.import/
