@@ -26,11 +26,7 @@ npm ci
 #    or whenever you want to reset). Pick any passphrase for local dev.
 STRAVA_DATA_PASSPHRASE='dev' npm run migrate
 
-# 3. (optional) import historical data
-cp '~/Dropbox/Eigene Dokumente/laufstatistiken-2026.json' scripts/.import/
-STRAVA_DATA_PASSPHRASE='dev' npm run migrate
-
-# 4. dev server
+# 3. dev server
 npm run dev
 ```
 
