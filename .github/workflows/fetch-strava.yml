@@ -1,0 +1,42 @@
+name: fetch-strava
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-strava
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - run: npm run fetch-strava
+        env:
+          STRAVA_CLIENT_ID:        ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_CLIENT_SECRET:    ${{ secrets.STRAVA_CLIENT_SECRET }}
+          STRAVA_REFRESH_TOKEN:    ${{ secrets.STRAVA_REFRESH_TOKEN }}
+          STRAVA_CLUB_ID:          ${{ secrets.STRAVA_CLUB_ID }}
+          STRAVA_DATA_PASSPHRASE:  ${{ secrets.STRAVA_DATA_PASSPHRASE }}
+      - name: Commit data changes
+        run: |
+          git config user.name "strava-bot"
+          git config user.email "strava-bot@users.noreply.github.com"
+          git add public/data/
+          if git diff --staged --quiet; then
+            echo "no changes"
+          else
+            git commit -m "data: refresh strava activities"
+            git push
+          fi
