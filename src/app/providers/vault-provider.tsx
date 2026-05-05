@@ -34,7 +34,7 @@ export function VaultProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let cancelled = false
-    fetch(ACTIVITIES_URL)
+    fetch(ACTIVITIES_URL, { cache: 'no-store' })
       .then(r => {
         if (!r.ok) throw new Error(`failed to fetch encrypted data: ${r.status}`)
         return r.json() as Promise<VaultEnvelope>
