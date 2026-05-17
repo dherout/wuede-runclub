@@ -4,6 +4,7 @@ import {
   Tooltip, CartesianGrid, Legend,
 } from 'recharts'
 import { format } from 'date-fns'
+import { useSportFilter } from '@features/sport-filter'
 import type { ClubActivity } from '@entities/activity/model/types'
 
 const COLORS = [
@@ -33,17 +34,20 @@ function monthOf(a: ClubActivity): string {
 interface TooltipPayloadEntry { payload: Point }
 
 export function PerformancePlot({ activities }: { activities: ClubActivity[] }) {
-  const months = useMemo(() => {
-    const set = new Set(activities.map(monthOf))
-    return Array.from(set).sort().reverse()
-  }, [activities])
+  const { filtered, control: sportControl } = useSportFilter(activities)
 
-  const [month, setMonth] = useState<string>(months[0] ?? '')
+  const months = useMemo(() => {
+    const set = new Set(filtered.map(monthOf))
+    return Array.from(set).sort().reverse()
+  }, [filtered])
+
+  const [selectedMonth, setSelectedMonth] = useState<string>('')
+  const month = months.includes(selectedMonth) ? selectedMonth : months[0] ?? ''
 
   const seriesByAthlete = useMemo(() => {
-    const filtered = activities.filter(a => monthOf(a) === month)
+    const inMonth = filtered.filter(a => monthOf(a) === month)
     const groups = new Map<string, Point[]>()
-    for (const a of filtered) {
+    for (const a of inMonth) {
       const p = paceMinPerKm(a)
       if (!isFinite(p)) continue
       const athlete = `${a.athlete.firstname} ${a.athlete.lastname}`.trim()
@@ -59,23 +63,26 @@ export function PerformancePlot({ activities }: { activities: ClubActivity[] }) 
       groups.set(athlete, list)
     }
     return Array.from(groups.entries()).sort((a, b) => b[1].length - a[1].length)
-  }, [activities, month])
+  }, [filtered, month])
 
   if (months.length === 0) return null
 
   return (
     <div className="rounded-2xl border border-neutral-800 bg-neutral-900 p-5">
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-sm font-medium uppercase tracking-wider text-neutral-400">
           Performance — {month}
         </h2>
-        <select
-          value={month}
-          onChange={e => setMonth(e.target.value)}
-          className="rounded border border-neutral-700 bg-neutral-950 px-2 py-1 text-xs text-neutral-200"
-        >
-          {months.map(m => <option key={m} value={m}>{m}</option>)}
-        </select>
+        <div className="flex items-center gap-2">
+          {sportControl}
+          <select
+            value={month}
+            onChange={e => setSelectedMonth(e.target.value)}
+            className="rounded border border-neutral-700 bg-neutral-950 px-2 py-1 text-xs text-neutral-200"
+          >
+            {months.map(m => <option key={m} value={m}>{m}</option>)}
+          </select>
+        </div>
       </div>
       <div className="aspect-[4/3] max-h-[32rem] w-full">
         <ResponsiveContainer width="100%" height="100%">
