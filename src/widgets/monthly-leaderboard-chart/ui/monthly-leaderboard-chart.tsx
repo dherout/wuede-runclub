@@ -1,5 +1,6 @@
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts'
 import { monthlyByAthlete } from '@entities/activity/model/aggregate'
+import { useSportFilter } from '@features/sport-filter'
 import type { ClubActivity } from '@entities/activity/model/types'
 
 const COLORS = [
@@ -8,13 +9,17 @@ const COLORS = [
 ]
 
 export function MonthlyLeaderboardChart({ activities }: { activities: ClubActivity[] }) {
-  const { rows, athletes } = monthlyByAthlete(activities)
+  const { filtered, control } = useSportFilter(activities)
+  const { rows, athletes } = monthlyByAthlete(filtered)
 
   return (
     <div className="rounded-2xl border border-neutral-800 bg-neutral-900 p-5">
-      <h2 className="mb-4 text-sm font-medium uppercase tracking-wider text-neutral-400">
-        Monatliches Ranking (km)
-      </h2>
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <h2 className="text-sm font-medium uppercase tracking-wider text-neutral-400">
+          Monatliches Ranking (km)
+        </h2>
+        {control}
+      </div>
       <div className="aspect-[3/2] max-h-96 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={rows} margin={{ left: 0, right: 8, top: 8, bottom: 0 }}>
