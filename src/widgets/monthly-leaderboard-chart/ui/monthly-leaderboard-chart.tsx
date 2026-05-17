@@ -15,9 +15,9 @@ export function MonthlyLeaderboardChart({ activities }: { activities: ClubActivi
       <h2 className="mb-4 text-sm font-medium uppercase tracking-wider text-neutral-400">
         Monatliches Ranking (km)
       </h2>
-      <div className="h-80">
+      <div className="aspect-[3/2] max-h-96 w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={rows} margin={{ left: -20, right: 8, top: 8, bottom: 0 }}>
+          <BarChart data={rows} margin={{ left: 0, right: 8, top: 8, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#262626" />
             <XAxis dataKey="month" stroke="#737373" fontSize={11} />
             <YAxis stroke="#737373" fontSize={11} unit=" km" />

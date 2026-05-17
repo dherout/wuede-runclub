@@ -15,7 +15,7 @@ export function SportBreakdownChart({ activities }: { activities: ClubActivity[]
       <h2 className="mb-4 text-sm font-medium uppercase tracking-wider text-neutral-400">
         Sport-Aufteilung (km)
       </h2>
-      <div className="h-64">
+      <div className="aspect-square max-h-80 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie data={data} dataKey="value" innerRadius={50} outerRadius={90} paddingAngle={2}>

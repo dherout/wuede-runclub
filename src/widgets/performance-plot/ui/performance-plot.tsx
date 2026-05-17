@@ -77,7 +77,7 @@ export function PerformancePlot({ activities }: { activities: ClubActivity[] }) 
           {months.map(m => <option key={m} value={m}>{m}</option>)}
         </select>
       </div>
-      <div className="h-96">
+      <div className="aspect-[4/3] max-h-[32rem] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <ScatterChart margin={{ left: 0, right: 8, top: 8, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#262626" />
