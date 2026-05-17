@@ -6,11 +6,11 @@ export function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen">
       <header className="border-b border-neutral-800 bg-neutral-900/80 backdrop-blur">
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+        <nav className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-3 sm:px-6">
           <Link to="/" className="text-base font-semibold tracking-tight">
             Wüde Runclub
           </Link>
-          <div className="flex items-center gap-6 text-sm text-neutral-300">
+          <div className="flex items-center gap-3 text-xs text-neutral-300 sm:gap-6 sm:text-sm">
             <Link to="/" className="hover:text-white" activeProps={{ className: 'text-white' }}>
               Übersicht
             </Link>
@@ -24,7 +24,7 @@ export function Layout({ children }: { children: ReactNode }) {
           </div>
         </nav>
       </header>
-      <main className="mx-auto max-w-6xl px-6 py-8">{children}</main>
+      <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">{children}</main>
     </div>
   )
 }

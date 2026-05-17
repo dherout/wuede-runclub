@@ -13,9 +13,9 @@ export function WeeklyDistanceChart({ activities }: { activities: ClubActivity[]
       <h2 className="mb-4 text-sm font-medium uppercase tracking-wider text-neutral-400">
         Wöchentliche Distanz
       </h2>
-      <div className="h-64">
+      <div className="aspect-[3/2] max-h-80 w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data} margin={{ left: -20, right: 8, top: 8, bottom: 0 }}>
+          <LineChart data={data} margin={{ left: 0, right: 8, top: 8, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#262626" />
             <XAxis dataKey="week" stroke="#737373" fontSize={11} />
             <YAxis stroke="#737373" fontSize={11} unit=" km" />
