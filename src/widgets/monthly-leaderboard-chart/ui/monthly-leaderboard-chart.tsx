@@ -1,6 +1,6 @@
+import type { ReactNode } from 'react'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts'
 import { monthlyByAthlete } from '@entities/activity/model/aggregate'
-import { useSportFilter } from '@features/sport-filter'
 import { formatNumber } from '@shared/lib/format'
 import type { ClubActivity } from '@entities/activity/model/types'
 
@@ -9,9 +9,8 @@ const COLORS = [
   '#a78bfa', '#34d399', '#22d3ee', '#fb7185', '#c084fc',
 ]
 
-export function MonthlyLeaderboardChart({ activities }: { activities: ClubActivity[] }) {
-  const { filtered, control } = useSportFilter(activities)
-  const { rows, athletes } = monthlyByAthlete(filtered)
+export function MonthlyLeaderboardChart({ activities, control }: { activities: ClubActivity[]; control?: ReactNode }) {
+  const { rows, athletes } = monthlyByAthlete(activities)
 
   return (
     <div className="rounded-2xl border border-neutral-800 bg-neutral-900 p-5">
