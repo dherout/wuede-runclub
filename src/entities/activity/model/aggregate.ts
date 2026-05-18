@@ -31,7 +31,7 @@ export function monthlyByAthlete(activities: ClubActivity[]): {
     const inner = monthMap.get(month)!
     const row: MonthlyByAthleteRow = { month }
     for (const name of athletes) {
-      row[name] = +((inner.get(name) ?? 0) / 1000).toFixed(1)
+      row[name] = +((inner.get(name) ?? 0) / 1000).toFixed(2)
     }
     return row
   })

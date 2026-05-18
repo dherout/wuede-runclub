@@ -1,6 +1,7 @@
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts'
 import { monthlyByAthlete } from '@entities/activity/model/aggregate'
 import { useSportFilter } from '@features/sport-filter'
+import { formatNumber } from '@shared/lib/format'
 import type { ClubActivity } from '@entities/activity/model/types'
 
 const COLORS = [
@@ -25,8 +26,11 @@ export function MonthlyLeaderboardChart({ activities }: { activities: ClubActivi
           <BarChart data={rows} margin={{ left: 0, right: 8, top: 8, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#262626" />
             <XAxis dataKey="month" stroke="#737373" fontSize={11} />
-            <YAxis stroke="#737373" fontSize={11} unit=" km" />
-            <Tooltip contentStyle={{ background: '#171717', border: '1px solid #404040', fontSize: 12 }} />
+            <YAxis stroke="#737373" fontSize={11} unit=" km" tickFormatter={v => formatNumber(v as number, 2)} />
+            <Tooltip
+              contentStyle={{ background: '#171717', border: '1px solid #404040', fontSize: 12 }}
+              formatter={(v) => [`${formatNumber(v as number, 2)} km`, '']}
+            />
             <Legend wrapperStyle={{ fontSize: 11 }} />
             {athletes.map((name, i) => (
               <Bar key={name} dataKey={name} stackId="km" fill={COLORS[i % COLORS.length]} />
