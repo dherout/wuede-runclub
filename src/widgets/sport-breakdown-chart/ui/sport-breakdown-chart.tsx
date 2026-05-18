@@ -1,5 +1,6 @@
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from 'recharts'
 import { sportBreakdown } from '@entities/activity/model/aggregate'
+import { formatNumber } from '@shared/lib/format'
 import type { ClubActivity } from '@entities/activity/model/types'
 
 const COLORS = ['#fb923c', '#60a5fa', '#a3e635', '#f472b6', '#facc15', '#a78bfa', '#34d399']
@@ -7,7 +8,7 @@ const COLORS = ['#fb923c', '#60a5fa', '#a3e635', '#f472b6', '#facc15', '#a78bfa'
 export function SportBreakdownChart({ activities }: { activities: ClubActivity[] }) {
   const data = sportBreakdown(activities).map(s => ({
     name: s.sport,
-    value: +(s.distance / 1000).toFixed(1),
+    value: +(s.distance / 1000).toFixed(2),
   }))
 
   return (
@@ -21,7 +22,10 @@ export function SportBreakdownChart({ activities }: { activities: ClubActivity[]
             <Pie data={data} dataKey="value" innerRadius={50} outerRadius={90} paddingAngle={2}>
               {data.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
             </Pie>
-            <Tooltip contentStyle={{ background: '#171717', border: '1px solid #404040', fontSize: 12 }} />
+            <Tooltip
+              contentStyle={{ background: '#171717', border: '1px solid #404040', fontSize: 12 }}
+              formatter={(v) => [`${formatNumber(v as number, 2)} km`, '']}
+            />
             <Legend wrapperStyle={{ fontSize: 12 }} />
           </PieChart>
         </ResponsiveContainer>

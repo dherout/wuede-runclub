@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { perAthleteTotals } from '@entities/activity/model/aggregate'
-import { formatDistance, formatDuration } from '@shared/lib/format'
+import { formatDistance, formatDuration, formatNumber } from '@shared/lib/format'
 import { useSportFilter } from '@features/sport-filter'
 import type { ClubActivity } from '@entities/activity/model/types'
 
@@ -36,7 +36,7 @@ export function LeaderboardTable({ activities }: { activities: ClubActivity[] })
               </td>
               <td className="truncate px-2 py-3 text-right tabular-nums sm:px-5">{formatDistance(r.distance)}</td>
               <td className="hidden truncate px-2 py-3 text-right tabular-nums sm:table-cell sm:px-5">{formatDuration(r.duration)}</td>
-              <td className="truncate px-2 py-3 text-right tabular-nums sm:px-5">{r.count}</td>
+              <td className="truncate px-2 py-3 text-right tabular-nums sm:px-5">{formatNumber(r.count)}</td>
             </tr>
           ))}
         </tbody>

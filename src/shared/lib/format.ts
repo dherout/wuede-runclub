@@ -1,5 +1,19 @@
+const integerFormatter = new Intl.NumberFormat('de-DE', { maximumFractionDigits: 0 })
+const distanceFormatter = new Intl.NumberFormat('de-DE', {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+})
+
+export function formatNumber(value: number, fractionDigits = 0): string {
+  if (fractionDigits === 0) return integerFormatter.format(value)
+  return new Intl.NumberFormat('de-DE', {
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  }).format(value)
+}
+
 export function formatDistance(metres: number): string {
-  return `${(metres / 1000).toFixed(1)} km`
+  return `${distanceFormatter.format(metres / 1000)} km`
 }
 
 export function formatDuration(seconds: number): string {
@@ -10,5 +24,5 @@ export function formatDuration(seconds: number): string {
 }
 
 export function formatElevation(metres: number): string {
-  return `${Math.round(metres)} m`
+  return `${integerFormatter.format(Math.round(metres))} m`
 }

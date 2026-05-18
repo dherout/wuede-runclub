@@ -5,6 +5,7 @@ import {
 } from 'recharts'
 import { format } from 'date-fns'
 import { useSportFilter } from '@features/sport-filter'
+import { formatNumber } from '@shared/lib/format'
 import type { ClubActivity } from '@entities/activity/model/types'
 
 const COLORS = [
@@ -91,11 +92,13 @@ export function PerformancePlot({ activities }: { activities: ClubActivity[] }) 
             <XAxis
               type="number" dataKey="distance" name="Distanz" unit=" km"
               stroke="#737373" fontSize={11}
+              tickFormatter={v => formatNumber(v as number, 2)}
             />
             <YAxis
               type="number" dataKey="pace" name="Pace" unit=" min/km" reversed
               stroke="#737373" fontSize={11}
               domain={['auto', 'auto']}
+              tickFormatter={v => formatNumber(v as number, 2)}
             />
             <ZAxis type="number" dataKey="elevation" range={[40, 400]} name="Höhenmeter" unit=" m" />
             <Tooltip
@@ -108,7 +111,7 @@ export function PerformancePlot({ activities }: { activities: ClubActivity[] }) 
                     <div className="font-medium text-neutral-100">{p.name || '(ohne Titel)'}</div>
                     <div className="text-neutral-400">{p.athlete} · {p.sport_type}</div>
                     <div className="mt-1 text-neutral-300">
-                      {p.distance.toFixed(2)} km · {p.pace.toFixed(2)} min/km · {Math.round(p.elevation)} hm
+                      {formatNumber(p.distance, 2)} km · {formatNumber(p.pace, 2)} min/km · {formatNumber(Math.round(p.elevation))} hm
                     </div>
                   </div>
                 )
